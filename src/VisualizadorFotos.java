@@ -1,6 +1,7 @@
 package src;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class VisualizadorFotos extends JFrame {
     private JComboBox<Fotografo> comboBoxFotografos;
@@ -82,4 +83,36 @@ public class VisualizadorFotos extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los fotógrafos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+    // Método para cargar las fotos del fotógrafo seleccionado desde la fecha indicada en el JXDatePicker
+    private void cargarFotos() {
+        Fotografo fotografoSeleccionado = (Fotografo) comboBoxFotografos.getSelectedItem();
+        Date fechaSeleccionada = datePicker.getDate();
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Fotografias WHERE IdFotografo = ? AND Fecha >= ?");
+            stmt.setInt(1, fotografoSeleccionado.getId());
+            stmt.setDate(2, new java.sql.Date(fechaSeleccionada.getTime()));
+            ResultSet rs = stmt.executeQuery();
+
+            DefaultListModel<Fotografia> model = new DefaultListModel<>();
+            while (rs.next()) {
+                int idFoto = rs.getInt("IdFoto");
+                String titulo = rs.getString("Titulo");
+                String archivo = rs.getString("Archivo");
+                int visitas = rs.getInt("Visitas");
+                int idFotografo = rs.getInt("IdFotografo");
+                model.addElement(new Fotografia(idFoto, titulo, archivo, visitas, idFotografo));
+            }
+
+            listFotos.setModel(model);
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al cargar las fotos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
+
+
