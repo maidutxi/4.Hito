@@ -1,3 +1,5 @@
+package src;
+
 public class Fotografo {
     private int id;
     private String nombre;
