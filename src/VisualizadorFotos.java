@@ -1,6 +1,11 @@
 package src;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class VisualizadorFotos extends JFrame {
@@ -19,6 +24,15 @@ public class VisualizadorFotos extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 2));
 
+        // Datos de conexión a la base de datos MariaDB
+        static final String IP_SERVIDOR = "localhost";
+        static final String DB_NOMBRE = "hito4";
+        static final String USUARIO = "root";
+        static final String PASSWORD = "zubiri";
+        static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+        static final String DB_URL = "jdbc:mariadb://" + IP_SERVIDOR + ":3306/" + DB_NOMBRE;
+        private Connection conn;
+
         // Componentes
         comboBoxFotografos = new JComboBox<>();
         labelFotografo = new JLabel("Photographer");
@@ -27,6 +41,8 @@ public class VisualizadorFotos extends JFrame {
         listFotos = new JList<>();
         labelImagen = new JLabel();
 
+        // Establecer conexión a la base de datos
+        conectarBaseDatos();
 
         // Ajustar el tamaño del JComboBox
         comboBoxFotografos.setPreferredSize(labelFotografo.getPreferredSize());
