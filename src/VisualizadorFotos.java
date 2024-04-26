@@ -1,10 +1,16 @@
-package src;
+import src.Fotografia;
+import src.Fotografo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.beans.Statement;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
 
 public class VisualizadorFotos extends JFrame {
     private JComboBox<Fotografo> comboBoxFotografos;
@@ -14,6 +20,15 @@ public class VisualizadorFotos extends JFrame {
     private JList<Fotografia> listFotos;
     private JLabel labelImagen;
 
+    // Datos de conexión a la base de datos MariaDB
+    static final String IP_SERVIDOR = "localhost";
+    static final String DB_NOMBRE = "hito4";
+    static final String USUARIO = "root";
+    static final String PASSWORD = "zubiri";
+    static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
+    static final String DB_URL = "jdbc:mariadb://" + IP_SERVIDOR + ":3306/" + DB_NOMBRE;
+    private Connection conn;
+
     // Constructor
     public VisualizadorFotos() {
         // Configurar la ventana
@@ -21,15 +36,6 @@ public class VisualizadorFotos extends JFrame {
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 2));
-
-        // Datos de conexión
-        static final String IP_SERVIDOR = "localhost";
-        static final String DB_NOMBRE = "hito4";
-        static final String USUARIO = "root";
-        static final String PASSWORD = "zubiri";
-        static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-        static final String DB_URL = "jdbc:mariadb://" + IP_SERVIDOR + ":3306/" + DB_NOMBRE;
-        private Connection conn;
 
         // Componentes
         comboBoxFotografos = new JComboBox<>();
@@ -76,6 +82,7 @@ public class VisualizadorFotos extends JFrame {
         // Cargar fotógrafos en el JComboBox
         cargarFotografos();
     }
+
     // Método para conectar a la base de datos
     private void conectarBaseDatos() {
         try {
@@ -87,7 +94,6 @@ public class VisualizadorFotos extends JFrame {
             System.exit(1);
         }
     }
-
 
     // Método para cargar los fotógrafos desde la base de datos
     private void cargarFotografos() {
@@ -109,6 +115,7 @@ public class VisualizadorFotos extends JFrame {
             JOptionPane.showMessageDialog(this, "Error al cargar los fotógrafos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
     // Método para cargar las fotos del fotógrafo seleccionado desde la fecha indicada en el JXDatePicker
     private void cargarFotos() {
         Fotografo fotografoSeleccionado = (Fotografo) comboBoxFotografos.getSelectedItem();
@@ -140,5 +147,3 @@ public class VisualizadorFotos extends JFrame {
         }
     }
 }
-
-
