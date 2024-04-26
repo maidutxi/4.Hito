@@ -1,3 +1,7 @@
+package src;
+import org.jdesktop.swingx.JXDatePicker;
+import org.mariadb.jdbc.Connection;
+import org.mariadb.jdbc.Statement;
 import src.Fotografia;
 import src.Fotografo;
 
@@ -5,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.Statement;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,7 +90,7 @@ public class VisualizadorFotos extends JFrame {
     private void conectarBaseDatos() {
         try {
             Class.forName(JDBC_DRIVER);
-            conn = DriverManager.getConnection(DB_URL, USUARIO, PASSWORD);
+            conn = (Connection) DriverManager.getConnection(DB_URL, USUARIO, PASSWORD);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error de conexión a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
