@@ -76,6 +76,18 @@ public class VisualizadorFotos extends JFrame {
         // Cargar fotógrafos en el JComboBox
         cargarFotografos();
     }
+    // Método para conectar a la base de datos
+    private void conectarBaseDatos() {
+        try {
+            Class.forName(JDBC_DRIVER);
+            conn = DriverManager.getConnection(DB_URL, USUARIO, PASSWORD);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error de conexión a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+    }
+
 
     // Método para cargar los fotógrafos desde la base de datos
     private void cargarFotografos() {
