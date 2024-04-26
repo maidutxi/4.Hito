@@ -4,9 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class VisualizadorFotos extends JFrame {
     private JComboBox<Fotografo> comboBoxFotografos;
@@ -24,7 +22,7 @@ public class VisualizadorFotos extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(2, 2));
 
-        // Datos de conexión a la base de datos MariaDB
+        // Datos de conexión
         static final String IP_SERVIDOR = "localhost";
         static final String DB_NOMBRE = "hito4";
         static final String USUARIO = "root";
